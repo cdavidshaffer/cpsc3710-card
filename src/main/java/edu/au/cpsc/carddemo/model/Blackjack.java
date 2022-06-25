@@ -31,8 +31,12 @@ public class Blackjack {
         over = true;
       }
     }
+
+    // loop until the game is over
     while (!over) {
+      // if no one hits, the game is over so track number of hits
       int numberOfHits = 0;
+      // for each player, let them play one step of their hand
       for (int playerNumber = 1; playerNumber <= hands.length; playerNumber++) {
         if (hands[playerNumber - 1].blackjackBestValue() < 21) {
           System.out.printf("Player %d hand:\n\t%s\n(h)it or (s)tand? ",
@@ -45,7 +49,7 @@ public class Blackjack {
         }
       }
 
-      // the game is over if anyone has 21 or no one "hit" during the last round
+      // the game is over if anyone has 21 or no one hit during the last round
       for (Hand h : hands) {
         if (h.blackjackBestValue() == 21) {
           over = true;
