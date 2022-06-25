@@ -1,39 +1,79 @@
+/*
+ * Copyright (c) 2022. See LICENSE.txt for details.
+ */
+
 package edu.au.cpsc.carddemo.model;
 
+import java.io.IOException;
+
+/**
+ * I am a playing card from a standard 52 card deck.
+ *
+ * <p>A standard deck contains 52 unique cards differentiated by their face and suit.  See Suit and
+ * Face classes for possible values.</p>
+ *
+ * <p>Cards are created using the two-argument constructor: {@code Card(Face, Suit)}.</p>
+ *
+ * <p>Example:</p>
+ * <pre>Card c = new Card(Card.Face.ACE, Card.Suit.DIAMONDS);</pre>
+ * <p>
+ */
 public class Card {
-    // f is the card's face value
-    private int f;
-    // s is the suit
-      private int s;
 
-      // make a card
-      public Card(int f, int s) {
-          this.f = f;
-          this.s = s;
-          }
+  private Face face;
+  private Suit suit;
 
- // get the face value
- public int getFace() {
-     return f; // f is the face value
- }
+  public Card(Face face, Suit suit) {
+    this.face = face;
+    this.suit = suit;
+  }
 
-      // get the suit
-      public int getSuit() {
-          return s; // s is the suit (0 = HEARTS, 1 = DIAMONDS, 2 = CLUBS, 3 = SPADES)
-      }
+  public Face getFace() {
+    return face;
+  }
 
-      // get the value
-      public int value() {
-          if (f == 0 || (s == 0 && f == 2)) {
-              return 5;
-          } else if (f == 1 || (s < 2 || s == 4 && f == 9))
-// not sure what to do in this case
-              return 9;
-          // else if (f == 9) {
-             // return 2*f;
-          //}
-          else {
-              return 22;
-          }
-      }
+  public Suit getSuit() {
+    return suit;
+  }
+
+  /**
+   * The score value of this card in hodge-podge.
+   *
+   * @param foo the annotation for the card
+   * @return the hodge-podge score
+   * @throws IllegalArgumentException when foo is illegal
+   * @deprecated will be removed in v2.0, call {@link #getValue(int)} instead
+   */
+  @Deprecated
+  public int value(int foo) throws IOException {
+    return getValue(foo);
+  }
+
+  /**
+   * The score value of this card in hodge-podge.
+   *
+   * @param foo the annotation for the card
+   * @return the hodge-podge score
+   * @throws IllegalArgumentException when foo is illegal
+   */
+  public int getValue(int foo) {
+    if (face == Face.ACE || (suit == Suit.HEARTS && face == Face.THREE)) {
+      return 5;
+    } else if (face == Face.TWO || ((suit == Suit.HEARTS || suit == Suit.DIAMONDS)
+        || suit == Suit.DIAMONDS && face == Face.TEN)) {
+      // TODO not sure!
+      return 9;
+    } else {
+      return 22;
+    }
+  }
+
+  public enum Face {
+    ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING;
+  }
+
+  public enum Suit {
+    HEARTS, DIAMONDS, CLUBS,
+    SPADES;
+  }
 }
